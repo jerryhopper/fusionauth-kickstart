@@ -34,7 +34,7 @@
           ],
           "oauthConfiguration": {
             "enabledGrants": [
-              "device_code",
+              "urn:ietf:params:oauth:grant-type:device_code",
               "authorization_code",
               "refresh_token"
             ]
