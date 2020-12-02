@@ -154,7 +154,8 @@ poll(){
           exit 0
         fi
         if [ "$5" == "once" ];then
-            echo "Polled one time."
+            #echo "Polled one time."
+            echo "$AJSON"
             exit 0
         fi
         if [ "$HAS_ERROR" != "authorization_pending" ]; then
