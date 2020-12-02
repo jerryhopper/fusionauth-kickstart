@@ -104,7 +104,11 @@ jobs:
         shell: bash
         run: |
           bash ./deviceauth.sh authorize
-          ls -latr
+          ls -latr $HOME/.oauth2
+      - name: Show authrequest
+        shell: bash
+        run: |
+          cat $HOME/.oauth2/.tokenrequest.json
       - name: Show docker-compose logs
         shell: bash
         run: | 
