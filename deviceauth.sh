@@ -117,7 +117,8 @@ poll(){
     # $2 $CLIENT_ID_FILE
     # $3 $TOKEN_URL
     # $4 $OAUTH_OPENID_TOKEN_FILE
-
+    # $5 $POLLONCE (should contain 'once')
+    
     # check if request file exists.
     if [ ! -f $1 ]; then
       echo "No tokenrequest.json?"
@@ -152,7 +153,10 @@ poll(){
           echo "$AJSON"
           exit 0
         fi
-
+        if [ "$5" == "once" ];then
+            echo "Polled one time."
+            exit 0
+        fi
         if [ "$HAS_ERROR" != "authorization_pending" ]; then
           echo "$HAS_ERROR"
           rm -f $1
