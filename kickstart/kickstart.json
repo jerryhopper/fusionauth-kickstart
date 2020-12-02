@@ -1,6 +1,7 @@
 {
   "variables": {
     "apiKey": "4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd",
+    "defaultTenantId": "d7d09513-a3f5-401c-9685-34ab6c552453",
     "adminPassword": "supersecret",
     "secondTenantId": "#{UUID()}",
     "applicationId": "89d998a5-aaef-45d0-9765-adf1f3e00c65",
@@ -16,6 +17,7 @@
     {
       "method": "POST",
       "url": "/api/tenant/#{secondTenantId}",
+      "sourceTenantId": "#{defaultTenantId}",
       "body": {
         "tenant": {
           "name": "DeviceAuth"
