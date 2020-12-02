@@ -118,7 +118,7 @@ jobs:
           echo "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE"
           curl "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE" 
           echo "Starting to poll for authentication"
-          bash ./deviceauth.sh poll
+          bash ./deviceauth.sh poll once
       - name: Renew authrequest
         shell: bash
         run: |
