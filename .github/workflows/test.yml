@@ -49,6 +49,7 @@ jobs:
         run: |
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
           curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env
+          
       - name: Add kickstart to .env
         shell: bash
         run: |             
@@ -58,6 +59,14 @@ jobs:
         shell: bash
         run: |          
           cat .env
+
+      - name: List director
+        shell: bash
+        run: |
+          echo $HOME
+          ls -latr
+          ls -latr $HOME
+                    
       - name: Run docker
         shell: bash
         run: | 
