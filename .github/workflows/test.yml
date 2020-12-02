@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |             
           echo "">>.env
-          echo "FUSIONAUTH_APP_KICKSTART_FILE=kickstart.json">>.env
+          echo "FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json">>.env
       - name: Show contents of .env
         shell: bash
         run: |          
