@@ -114,7 +114,7 @@ jobs:
           echo "usercode: $USERCODE"
           echo "The following query is done on the background, and runs after 15 seconds, in order to test the deviceauth polling functionality"
           echo "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE"
-          nohup sleep 15 && curl "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE" & >/dev/null 
+          nohup sleep 15;curl "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE" & >/dev/null 
           echo "Starting to poll for authentication"
           bash ./deviceauth.sh poll
       - name: Renew authrequest
