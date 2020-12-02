@@ -3,4 +3,4 @@ version: '3'
 services:
   fusionauth:
     environment:
-      FUSIONAUTH_APP_KICKSTART_FILE: fusionauth-kickstart.json
+      FUSIONAUTH_APP_KICKSTART_FILE: ${FUSIONAUTH_APP_KICKSTART_FILE}
