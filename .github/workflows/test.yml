@@ -94,6 +94,10 @@ jobs:
         shell: bash
         run: |
           bash ./deviceauth.sh setClientid 89d998a5-aaef-45d0-9765-adf1f3e00c65
+      - name: Show docker-compose logs
+        shell: bash
+        run: | 
+          docker-compose logs          
       - name: run deviceauth.sh authorize
         shell: bash
         run: |
