@@ -58,10 +58,10 @@
       "body": {
         "user": {
           "birthDate": "1981-06-04",
-          "email": "#{adminEmail}",
-          "firstName": "Erlich",
-          "lastName": "Bachman",
-          "password": "#{password}",
+          "email": "admin@localhost",
+          "firstName": "admin",
+          "lastName": "admin",
+          "password": "adminpassword",
           "data": {
             "Company": "PiedPiper",
             "PreviousCompany": "Aviato",
