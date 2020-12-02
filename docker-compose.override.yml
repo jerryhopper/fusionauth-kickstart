@@ -2,6 +2,7 @@ version: '3'
 
 services:
   fusionauth:
+    container_name: fusionauth
     environment:
       FUSIONAUTH_APP_KICKSTART_FILE: ${FUSIONAUTH_APP_KICKSTART_FILE}
     volumes:
