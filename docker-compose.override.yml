@@ -4,3 +4,5 @@ services:
   fusionauth:
     environment:
       FUSIONAUTH_APP_KICKSTART_FILE: ${FUSIONAUTH_APP_KICKSTART_FILE}
+  volumes:
+    - ./kickstart:/usr/local/fusionauth/kickstart
