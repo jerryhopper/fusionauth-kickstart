@@ -33,13 +33,14 @@
             }
           ],
           "oauthConfiguration": {
+            "deviceVerificationURL": "http://localhost:9111/oauth2/device?client_id=#{clientId}&tenantId=#{defaultTenantId}",
             "enabledGrants": [
               "urn:ietf:params:oauth:grant-type:device_code",
               "authorization_code",
               "refresh_token"
             ]
-          },
-          "deviceVerificationURL": "http://localhost:9111/oauth2/device?client_id=#{clientId}&tenantId=#{defaultTenantId}"
+          }
+          
         }
       }
     },
