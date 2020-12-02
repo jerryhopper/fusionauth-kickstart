@@ -5,5 +5,5 @@ services:
     environment:
       FUSIONAUTH_APP_KICKSTART_FILE: ${FUSIONAUTH_APP_KICKSTART_FILE}
     volumes:
-      - ${HOME}/kickstart:/usr/local/fusionauth/kickstart
+      - ./kickstart:/usr/local/fusionauth/kickstart
       - fa_config:/usr/local/fusionauth/config
