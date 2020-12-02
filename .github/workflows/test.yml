@@ -44,18 +44,33 @@ jobs:
         run: |
           docker pull fusionauth/fusionauth-app
 
-      - name: Run docker
+      - name: Get docker-compose and .env
         shell: bash
         run: |
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
-          curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env   
+          curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env
+      - name: Add kickstart to .env
+        shell: bash
+        run: |             
           echo "">>.env
           echo "FUSIONAUTH_APP_KICKSTART_FILE=fusionauth_kickstart.json">>.env
+      - name: Show contents of .env
+        shell: bash
+        run: |          
           cat .env
+      - name: Run docker
+        shell: bash
+        run: | 
           docker-compose up -d
           sleep 2
+      - name: Show docker-compose config
+        shell: bash
+        run: | 
           docker-compose config
           sleep 3
+      - name: Show docker-compose logs
+        shell: bash
+        run: | 
           docker-compose logs
 
       - name: Get openid-configuration
