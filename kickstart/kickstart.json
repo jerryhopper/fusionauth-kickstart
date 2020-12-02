@@ -16,18 +16,8 @@
   "requests": [
     {
       "method": "POST",
-      "url": "/api/tenant/#{secondTenantId}",
-      "sourceTenantId": "#{defaultTenantId}",
-      "body": {
-        "tenant": {
-          "name": "DeviceAuth"
-        }
-      }
-    },
-    {
-      "method": "POST",
       "url": "/api/application/#{applicationId}",
-      "tenantId": "#{secondTenantId}",
+      "tenantId": "#{defaultTenantId}",
       "body": {
         "application": {
           "name": "Pied Piper",
@@ -49,14 +39,14 @@
               "refresh_token"
             ]
           },
-          "deviceVerificationURL": "http://localhost:9111/oauth2/device?client_id=#{clientId}&tenantId=#{secondTenantId}"
+          "deviceVerificationURL": "http://localhost:9111/oauth2/device?client_id=#{clientId}&tenantId=#{defaultTenantId}"
         }
       }
     },
     {
       "method": "POST",
       "url": "/api/user/registration/00000000-0000-0000-0000-000000000001",
-      "tenantId": "#{secondTenantId}",
+      "tenantId": "#{defaultTenantId}",
       "body": {
         "user": {
           "birthDate": "1981-06-04",
