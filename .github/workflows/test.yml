@@ -60,13 +60,12 @@ jobs:
         run: |          
           cat .env
 
-      - name: List director
+      - name: List directory
         shell: bash
         run: |
-          echo $HOME
+          echo $PWD
           ls -latr
-          ls -latr $HOME
-                    
+                   
       - name: Run docker
         shell: bash
         run: | 
