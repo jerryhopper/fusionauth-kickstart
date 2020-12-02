@@ -56,6 +56,7 @@ jobs:
           echo "">>.env
           echo "FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json">>.env
           echo "FUSIONAUTH_ADMIN_PASSWORD=supersecret">>.env
+          echo "FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd">>.env
       - name: Show contents of .env
         shell: bash
         run: |          
