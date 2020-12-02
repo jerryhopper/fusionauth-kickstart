@@ -1,0 +1,3 @@
+  fusionauth:
+    environment:
+      FUSIONAUTH_APP_KICKSTART_FILE: fusionauth-kickstart.json
