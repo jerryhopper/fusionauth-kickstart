@@ -118,6 +118,16 @@ jobs:
           echo "GET http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE"
           curl -i "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE" 
           sleep 5
+          curl --location --request POST 'http://localhost:9011/oauth2/token' \
+                --header 'Content-Type: application/x-www-form-urlencoded' \
+                --data-urlencode 'grant_type=password' \
+                --data-urlencode 'scope=offline_access' \
+                --data-urlencode 'client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65' \
+                --data-urlencode 'client_secret=???' \
+                --data-urlencode 'username=admin@localhost' \
+                --data-urlencode 'password=adminpassword' \
+                --data-urlencode "user_code=$USERCODE" 
+                
       - name: Poll for authentication
         shell: bash
         run: |    
