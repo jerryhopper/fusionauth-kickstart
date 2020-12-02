@@ -79,12 +79,12 @@ jobs:
       - name: List directory  /usr/local/fusionauth/kickstart inside FA container
         shell: bash
         run: | 
-          docker exec -it fusionauth ls -latr /usr/local/fusionauth/kickstart
+          docker exec -t fusionauth ls -latr /usr/local/fusionauth/kickstart
           sleep 3
       - name: List directory  /usr/local/fusionauth inside FA container
         shell: bash
         run: | 
-          docker exec -it fusionauth ls -latr /usr/local/fusionauth
+          docker exec -t fusionauth ls -latr /usr/local/fusionauth
           sleep 3
                     
       - name: Show docker-compose logs
