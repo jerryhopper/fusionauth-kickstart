@@ -105,7 +105,7 @@ jobs:
         run: |
           bash ./deviceauth.sh authorize
           ls -latr $HOME/.oauth2
-      - name: Show authrequest
+      - name: Show authrequest, Poll for Authorization status & authorize device
         shell: bash
         run: |
           JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
@@ -117,7 +117,10 @@ jobs:
           nohup sleep 15 && curl "http://localhost:9011/oauth2/device/validate?client_id=89d998a5-aaef-45d0-9765-adf1f3e00c65&user_code=$USERCODE" & >/dev/null 
           echo "Starting to poll for authentication"
           bash ./deviceauth.sh poll
-          
+      - name: Renew authrequest
+        shell: bash
+        run: |
+          bash ./deviceauth.sh renew          
       - name: Show docker-compose logs
         shell: bash
         run: | 
