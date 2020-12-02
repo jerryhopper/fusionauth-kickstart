@@ -64,7 +64,6 @@ jobs:
       - name: Stop docker
         shell: bash
         run: |
-          cd tests
           docker-compose down
 
 
