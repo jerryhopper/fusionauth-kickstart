@@ -70,7 +70,7 @@ jobs:
         shell: bash
         run: | 
           docker-compose up -d
-          sleep 2
+          sleep 8
       - name: Show docker-compose config
         shell: bash
         run: | 
