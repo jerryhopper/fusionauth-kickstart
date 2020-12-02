@@ -48,7 +48,10 @@ jobs:
         shell: bash
         run: |
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
-          curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env          
+          curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env   
+          echo "#">.env
+          echo "FUSIONAUTH_APP_KICKSTART_FILE=fusionauth_kickstart.json">.env
+          cat .env
           docker-compose up -d
           sleep 2
           docker-compose config
