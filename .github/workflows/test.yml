@@ -63,6 +63,19 @@ jobs:
         run: |
           curl http://localhost:9011/.well-known/openid-configuration
 
+      - name: run deviceauth.sh setDiscovery
+        shell: bash
+        run: |
+          bash ./deviceauth.sh setDiscovery http://localhost:9011/.well-known/openid-configuration
+      - name: run deviceauth.sh setClientid
+        shell: bash
+        run: |
+          bash ./deviceauth.sh setClientid 85a03867-dccf-4882-adde-1a79aeec50df
+      - name: run deviceauth.sh authorize
+        shell: bash
+        run: |
+          bash ./deviceauth.sh authorize
+          ls -latr
 
       - name: Stop docker
         shell: bash
