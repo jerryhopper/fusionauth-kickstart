@@ -109,6 +109,7 @@ jobs:
       - name: run deviceauth.sh authorize
         shell: bash
         run: |
+          echo "Using:  curl -m 3 -s -o OUTPUTFILE -X POST -F "client_id=CLIENTID" -F "scope=offline_access" -w "%{http_code}" URL"
           bash ./deviceauth.sh authorize
           ls -latr $HOME/.oauth2
       - name: Show authrequest, Poll for Authorization status
@@ -139,7 +140,7 @@ jobs:
           #echo $JSON
           echo "Manually Authorizing the device."      
           echo "POST http://localhost:9011/oauth2/token  (grant_type=password + user_code=$(echo $JSON|jq -r .user_code))" 
-          # --data-urlencode 'scope=offline_access' \
+          --data-urlencode 'scope=offline_access' \
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
                 --header 'Content-Type: application/x-www-form-urlencoded' \
                 --data-urlencode 'grant_type=password' \
