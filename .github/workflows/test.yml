@@ -120,12 +120,14 @@ jobs:
           echo "usercode: $USERCODE"
           echo "Polling once.."
           bash ./deviceauth.sh poll once
-          echo "Manually Authorizing the device."
+          
           #echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
           #curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
-          
-          sleep 5
-          echo "POST http://localhost:9011/oauth2/token" 
+      - name: Manually Authorize device
+        shell: bash
+        run: |    
+          echo "Manually Authorizing the device."      
+          echo "POST http://localhost:9011/oauth2/token  (grant_type=password + user_code)" 
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
                 --header 'Content-Type: application/x-www-form-urlencoded' \
                 --data-urlencode 'grant_type=password' \
