@@ -52,10 +52,10 @@
       "body": {
         "user": {
           "birthDate": "1981-06-04",
-          "email": "admin@localhost",
-          "firstName": "admin",
-          "lastName": "admin",
-          "password": "adminpassword",
+          "email": "#{userEmail}",
+          "firstName": "user",
+          "lastName": "user",
+          "password": "#{userPassword}",
           "data": {
             "Company": "PiedPiper",
             "PreviousCompany": "Aviato",
@@ -64,9 +64,7 @@
         },
         "registration": {
           "applicationId": "#{applicationId}",
-          "roles": [
-            "admin"
-          ]
+          "roles": []
         }
       }
     }
