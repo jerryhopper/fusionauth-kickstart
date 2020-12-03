@@ -38,7 +38,8 @@
             "enabledGrants": [
               "urn:ietf:params:oauth:grant-type:device_code",
               "authorization_code",
-              "refresh_token"
+              "refresh_token",
+              "password"
             ]
           }
           
