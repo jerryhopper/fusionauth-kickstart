@@ -121,8 +121,8 @@ jobs:
           echo "Polling once.."
           bash ./deviceauth.sh poll once
           
-          #echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
-          #curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
+          echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
+          curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
       - name: Manually Authorize device
         shell: bash
         run: |    
@@ -136,8 +136,7 @@ jobs:
                 --data-urlencode "client_secret=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)" \
                 --data-urlencode 'username=user@local.nu' \
                 --data-urlencode 'password=userpassword' \
-                --data-urlencode "user_code=$USERCODE" 
-                
+                --data-urlencode "user_code=$USERCODE"   
       - name: Poll for authentication
         shell: bash
         run: |    
