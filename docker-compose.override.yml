@@ -4,9 +4,9 @@ services:
   fusionauth:
     container_name: fusionauth
     environment:
-      FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json
-      FUSIONAUTH_ADMIN_PASSWORD=supersecret
-      FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd
+      - FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json
+      - FUSIONAUTH_ADMIN_PASSWORD=supersecret
+      - FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd
       
     volumes:
       - ./kickstart:/usr/local/fusionauth/kickstart
