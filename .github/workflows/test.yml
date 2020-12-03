@@ -124,7 +124,7 @@ jobs:
           echo "Polling once.."
           bash ./deviceauth.sh poll once
       - name: GET /oauth2/device/validate
-        shell:
+        shell: bash
         run: |
           echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
           curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
