@@ -129,6 +129,7 @@ jobs:
           JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
           echo $JSON
           USERCODE=$(echo $JSON|jq -r .user_code)
+          CLIENT_ID="$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)"
           echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
           curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
       - name: Manually Authorize device
