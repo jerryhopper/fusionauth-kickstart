@@ -5,6 +5,8 @@
     "adminPassword": "#{ENV.FUSIONAUTH_ADMIN_PASSWORD}",
     "secondTenantId": "#{UUID()}",
     "applicationId": "#{ENV.APPLICATION_ID}"
+    "userEmail": "#{ENV.APP_USEREMAIL}",
+    "userPassword": "#{ENV.APP_USERPASSWORD}"
   },
   "apiKeys": [
     {
