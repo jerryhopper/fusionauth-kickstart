@@ -101,7 +101,7 @@ jobs:
       - name: run deviceauth.sh setClientid
         shell: bash
         run: |
-          bash ./deviceauth.sh setClientid $CLIENT_ID
+          bash ./deviceauth.sh setClientid "$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)"
       - name: Show docker-compose logs
         shell: bash
         run: | 
@@ -128,8 +128,8 @@ jobs:
                 --header 'Content-Type: application/x-www-form-urlencoded' \
                 --data-urlencode 'grant_type=password' \
                 --data-urlencode 'scope=offline_access' \
-                --data-urlencode "client_id=$CLIENT_ID" \
-                --data-urlencode "client_secret=$CLIENT_SECRET" \
+                --data-urlencode "client_id=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)" \
+                --data-urlencode "client_secret=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)" \
                 --data-urlencode 'username=admin@localhost' \
                 --data-urlencode 'password=adminpassword' \
                 --data-urlencode "user_code=$USERCODE" 
