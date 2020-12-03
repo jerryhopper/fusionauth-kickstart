@@ -127,7 +127,7 @@ jobs:
         shell: bash
         run: |
           JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
-          echo $JSON
+          #echo $JSON
           USERCODE=$(echo $JSON|jq -r .user_code)
           CLIENT_ID="$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)"
           echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
@@ -136,7 +136,7 @@ jobs:
         shell: bash
         run: |    
           JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
-          echo $JSON
+          #echo $JSON
           echo "Manually Authorizing the device."      
           echo "POST http://localhost:9011/oauth2/token  (grant_type=password + user_code=$(echo $JSON|jq -r .user_code))" 
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
