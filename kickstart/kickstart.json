@@ -1,11 +1,10 @@
 {
   "variables": {
     "apiKey": "#{ENV.FUSIONAUTH_API_KEY}",
-    "defaultTenantId": "d7d09513-a3f5-401c-9685-34ab6c552453",
-    "adminPassword": "supersecret",
+    "defaultTenantId": "#{ENV.DEF_TENANTID}",
+    "adminPassword": "#{ENV.FUSIONAUTH_ADMIN_PASSWORD}",
     "secondTenantId": "#{UUID()}",
-    "applicationId": "89d998a5-aaef-45d0-9765-adf1f3e00c65",
-    "clientId": "89d998a5-aaef-45d0-9765-adf1f3e00c65"
+    "applicationId": "#{ENV.APPLICATION_ID}"
   },
   "apiKeys": [
     {
@@ -33,7 +32,7 @@
             }
           ],
           "oauthConfiguration": {
-            "deviceVerificationURL": "http://localhost:9111/oauth2/device?client_id=#{clientId}&tenantId=#{defaultTenantId}",
+            "deviceVerificationURL": "http://localhost:9111/oauth2/device?client_id=#{applicationId}&tenantId=#{defaultTenantId}",
             "enabledGrants": [
               "urn:ietf:params:oauth:grant-type:device_code",
               "authorization_code",
