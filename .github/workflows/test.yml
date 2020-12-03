@@ -126,11 +126,16 @@ jobs:
       - name: GET /oauth2/device/validate
         shell: bash
         run: |
+          JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
+          echo $JSON
+          USERCODE=$(echo $JSON|jq -r .user_code)
           echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
           curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
       - name: Manually Authorize device
         shell: bash
         run: |    
+          JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
+          echo $JSON
           echo "Manually Authorizing the device."      
           echo "POST http://localhost:9011/oauth2/token  (grant_type=password + user_code=$(echo $JSON|jq -r .user_code))" 
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
@@ -142,11 +147,6 @@ jobs:
                 --data-urlencode 'username=user@local.nu' \
                 --data-urlencode 'password=userpassword' \
                 --data-urlencode "user_code=$(echo $JSON|jq -r .user_code)"   
-      - name: test
-        shell: bash
-        run: |
-          curl "http://localhost:9011/oauth2/authorize?client_id=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)&redirect_uri=#&response_type=code&tenantId=$(echo $(<application.json)|jq -r .application.tenantId)&user_code=$(echo $JSON|jq -r .user_code)"
-          
       - name: Poll for authentication
         shell: bash
         run: |    
