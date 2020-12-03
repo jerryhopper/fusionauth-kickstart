@@ -39,12 +39,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-      - name: Pull Fusionauth
-        shell: bash
-        run: |
-          docker pull fusionauth/fusionauth-app
-
-      - name: Get docker-compose and .env
+      - name: Get default docker-compose and .env
         shell: bash
         run: |
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
@@ -73,7 +68,7 @@ jobs:
         shell: bash
         run: | 
           docker-compose up -d
-          sleep 8
+          sleep 18
       - name: Show docker-compose config
         shell: bash
         run: | 
