@@ -136,7 +136,12 @@ jobs:
                 --data-urlencode "client_secret=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)" \
                 --data-urlencode 'username=user@local.nu' \
                 --data-urlencode 'password=userpassword' \
-                --data-urlencode "user_code=$USERCODE"   
+                --data-urlencode "user_code=$(echo $JSON|jq -r .user_code)"   
+      - name: test
+        shell: bash
+        run: |
+          curl "http://localhost:9011/oauth2/authorize?client_id=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)&redirect_uri=#&response_type=code&tenantId=$(echo $(<application.json)|jq -r .application.tenantId)&user_code=$(echo $JSON|jq -r .user_code)"
+          
       - name: Poll for authentication
         shell: bash
         run: |    
