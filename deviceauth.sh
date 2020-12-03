@@ -39,7 +39,7 @@ OAUTH_OPENID_CONFIG_FILE="${OAUTH_CONFIGDIR}/.openid-configuration.json"
 OAUTH_OPENID_TOKEN_FILE="${OAUTH_CONFIGDIR}/.authorization"
 
 OAUTH_OPENID_TOKEN_REQUEST_FILE="${OAUTH_CONFIGDIR}/.tokenrequest.json"
-OAUTH_OPENID_REFRESHTOKEN_REQUEST_FILE="/etc/osbox/refreshtokenrequest.json"
+OAUTH_OPENID_REFRESHTOKEN_REQUEST_FILE="${OAUTH_CONFIGDIR}/refreshtokenrequest.json"
 
 
 discover(){
