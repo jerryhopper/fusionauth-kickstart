@@ -144,11 +144,11 @@ jobs:
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
                 --header 'Content-Type: application/x-www-form-urlencoded' \
                 --data-urlencode 'grant_type=password' \
-                --data-urlencode "client_id=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)" \
-                --data-urlencode "client_secret=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)" \
+                --data-urlencode 'client_id=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)' \
+                --data-urlencode 'client_secret=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)' \
                 --data-urlencode 'username=user@local.nu' \
                 --data-urlencode 'password=userpassword' \
-                --data-urlencode "user_code=$(echo $JSON|jq -r .user_code)"   
+                --data-urlencode 'user_code=$(echo $JSON|jq -r .user_code)'   
       - name: Poll for authentication
         shell: bash
         run: |    
