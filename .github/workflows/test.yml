@@ -38,8 +38,12 @@ jobs:
              stable"
           sudo apt-get update
           sudo apt-get install docker-ce docker-ce-cli containerd.io
-
-      - name: Get default docker-compose and .env
+      - name: Download deviceauth.sh for use with test-scripts
+        shell: bash
+        run: |
+          echo "deviceauth.sh is used for this fusionauth kickstart example"
+          curl -o deviceauth.sh https://raw.githubusercontent.com/jerryhopper/fusionauth-bash-deviceauth/master/deviceauth.sh
+      - name: Download default docker-compose and .env
         shell: bash
         run: |
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
@@ -160,7 +164,9 @@ jobs:
         shell: bash
         run: | 
           docker-compose logs
-
+      - name: -End-of-testing-------------------------------------
+        shell: bash
+        run: echo ""  
       - name: Stop docker
         shell: bash
         run: |
