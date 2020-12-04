@@ -57,22 +57,15 @@ jobs:
           export APP_USEREMAIL=user@local.nu
           export APP_USERPASSWORD=userpassword
           # Make vars persistent thru guthub-action steps.
-          echo "::set-env name=DISCOVERY_URL::$DISCOVERY_URL"
-          echo "::set-env name=FUSIONAUTH_API_KEY::$FUSIONAUTH_API_KEY"
-          echo "::set-env name=FUSIONAUTH_APP_KICKSTART_FILE::$FUSIONAUTH_APP_KICKSTART_FILE"
-          echo "::set-env name=APPLICATION_ID::$APPLICATION_ID"
-          echo "::set-env name=DEF_TENANTID::$DEF_TENANTID"
-          echo "::set-env name=APP_USEREMAIL::$APP_USEREMAIL"
-          echo "::set-env name=APP_USERPASSWORD::$APP_USERPASSWORD"
           ## copy to .env
           echo "">>.env
-          echo "DISCOVERY_URL=$DISCOVERY_URL">>.env
-          echo "FUSIONAUTH_API_KEY=$FUSIONAUTH_API_KEY">>.env
-          echo "FUSIONAUTH_APP_KICKSTART_FILE=$FUSIONAUTH_APP_KICKSTART_FILE">>.env
-          echo "APPLICATION_ID=$APPLICATION_ID">>.env
-          echo "DEF_TENANTID=$DEF_TENANTID">>.env
-          echo "APP_USEREMAIL=$APP_USEREMAIL">>.env
-          echo "APP_USERPASSWORD=$APP_USERPASSWORD">>.env
+          echo "DISCOVERY_URL=$DISCOVERY_URL">>.env >> $GITHUB_ENV
+          echo "FUSIONAUTH_API_KEY=$FUSIONAUTH_API_KEY">>.env >> $GITHUB_ENV
+          echo "FUSIONAUTH_APP_KICKSTART_FILE=$FUSIONAUTH_APP_KICKSTART_FILE">>.env >> $GITHUB_ENV
+          echo "APPLICATION_ID=$APPLICATION_ID">>.env >> $GITHUB_ENV
+          echo "DEF_TENANTID=$DEF_TENANTID">>.env >> $GITHUB_ENV
+          echo "APP_USEREMAIL=$APP_USEREMAIL">>.env >> $GITHUB_ENV
+          echo "APP_USERPASSWORD=$APP_USERPASSWORD">>.env >> $GITHUB_ENV
       - name: Show contents of .env
         shell: bash
         run: |          
@@ -94,12 +87,14 @@ jobs:
           echo "FUSIONAUTH_API_KEY:$FUSIONAUTH_API_KEY"
           APPLICATIONJSON=$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )
           eport APPLICATIONJSON="$APPLICATIONJSON"
-          echo "::set-env name=APPLICATIONJSON::$APPLICATIONJSON"
+          echo "APPLICATIONJSON::$APPLICATIONJSON" >> $GITHUB_ENV
+          #
           export CLIENT_ID="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientId)"
-          echo "::set-env name=CLIENT_ID::$CLIENT_ID"
+          echo "CLIENT_ID=$CLIENT_ID" >> $GITHUB_ENV
           echo "ClientId=$CLIENT_ID"
+          #
           export CLIENT_SECRET="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientSecret)"
-          echo "::set-env name=CLIENT_SECRET::$CLIENT_SECRET"
+          echo "CLIENT_SECRET=$CLIENT_SECRET" >> $GITHUB_ENV
           echo "ClientSecret=$CLIENT_SECRET"  
                
       - name: Get openid-configuration
