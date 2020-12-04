@@ -56,15 +56,23 @@ jobs:
           export DEF_TENANTID=d7d09513-a3f5-401c-9685-34ab6c552453
           export APP_USEREMAIL=user@local.nu
           export APP_USERPASSWORD=userpassword
+          # Make vars persistent thru guthub-action steps.
+          echo "::set-env name=DISCOVERY_URL::$DISCOVERY_URL"
+          echo "::set-env name=FUSIONAUTH_API_KEY::$FUSIONAUTH_API_KEY"
+          echo "::set-env name=FUSIONAUTH_APP_KICKSTART_FILE::$FUSIONAUTH_APP_KICKSTART_FILE"
+          echo "::set-env name=APPLICATION_ID::$APPLICATION_ID"
+          echo "::set-env name=DEF_TENANTID::$DEF_TENANTID"
+          echo "::set-env name=APP_USEREMAIL::$APP_USEREMAIL"
+          echo "::set-env name=APP_USERPASSWORD::$APP_USERPASSWORD"
           ## copy to .env
           echo "">>.env
-          echo "DISCOVERY_URL=http://localhost:9011/.well-known/openid-configuration">>.env
-          echo "FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd">>.env
-          echo "FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json">>.env
-          echo "APPLICATION_ID=89d998a5-aaef-45d0-9765-adf1f3e00c65">>.env
-          echo "DEF_TENANTID=d7d09513-a3f5-401c-9685-34ab6c552453">>.env
-          echo "APP_USEREMAIL=user@local.nu">>.env
-          echo "APP_USERPASSWORD=userpassword">>.env
+          echo "DISCOVERY_URL=$DISCOVERY_URL">>.env
+          echo "FUSIONAUTH_API_KEY=$FUSIONAUTH_API_KEY">>.env
+          echo "FUSIONAUTH_APP_KICKSTART_FILE=$FUSIONAUTH_APP_KICKSTART_FILE">>.env
+          echo "APPLICATION_ID=$APPLICATION_ID">>.env
+          echo "DEF_TENANTID=$DEF_TENANTID">>.env
+          echo "APP_USEREMAIL=$APP_USEREMAIL">>.env
+          echo "APP_USERPASSWORD=$APP_USERPASSWORD">>.env
       - name: Show contents of .env
         shell: bash
         run: |          
@@ -85,24 +93,28 @@ jobs:
         run: |
           echo "FUSIONAUTH_API_KEY:$FUSIONAUTH_API_KEY"
           APPLICATIONJSON=$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )
+          eport APPLICATIONJSON="$APPLICATIONJSON"
+          echo "::set-env name=APPLICATIONJSON::$APPLICATIONJSON"
           export CLIENT_ID="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientId)"
+          echo "::set-env name=CLIENT_ID::$CLIENT_ID"
           echo "ClientId=$CLIENT_ID"
           export CLIENT_SECRET="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientSecret)"
+          echo "::set-env name=CLIENT_SECRET::$CLIENT_SECRET"
           echo "ClientSecret=$CLIENT_SECRET"  
                
       - name: Get openid-configuration
         shell: bash
         run: |
-          curl http://localhost:9011/.well-known/openid-configuration
+          curl $DISCOVERY_URL
 
       - name: run deviceauth.sh setDiscovery
         shell: bash
         run: |
-          bash ./deviceauth.sh setDiscovery http://localhost:9011/.well-known/openid-configuration
+          bash ./deviceauth.sh setDiscovery $DISCOVERY_URL
       - name: run deviceauth.sh setClientid
         shell: bash
         run: |
-          bash ./deviceauth.sh setClientid "$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)"
+          bash ./deviceauth.sh setClientid $CLIENT_ID
       - name: Show docker-compose logs
         shell: bash
         run: | 
@@ -110,7 +122,7 @@ jobs:
       - name: run deviceauth.sh authorize
         shell: bash
         run: |
-          echo "Using:  curl -m 3 -s -o OUTPUTFILE -X POST -F "client_id=CLIENTID" -F "scope=offline_access" -w "%{http_code}" URL"
+          echo "Using:  curl -m 3 -s -o OUTPUTFILE -X POST -F "client_id=$CLIENTID" -F "scope=offline_access" -w "%{http_code}" URL"
           bash ./deviceauth.sh authorize
           ls -latr $HOME/.oauth2
       - name: Show authrequest, Poll for Authorization status
