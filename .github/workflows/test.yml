@@ -45,25 +45,30 @@ jobs:
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
           curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env
           
-      - name: Add kickstart to .env
+      - name: Add Variables  to .env
         shell: bash
         run: |             
-          echo "">>.env
-          echo "FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json">>.env
-          echo "FUSIONAUTH_ADMIN_PASSWORD=supersecret">>.env
-          echo "FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd">>.env
+          ## Set the needed Environment variables
+          export DISCOVERY_URL=http://localhost:9011/.well-known/openid-configuration
           export FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd
+          export FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json
+          export APPLICATION_ID=89d998a5-aaef-45d0-9765-adf1f3e00c65
+          export DEF_TENANTID=d7d09513-a3f5-401c-9685-34ab6c552453
+          export APP_USEREMAIL=user@local.nu
+          export APP_USERPASSWORD=userpassword
+          ## copy to .env
+          echo "DISCOVERY_URL=http://localhost:9011/.well-known/openid-configuration">>.env
+          echo "FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd">>.env
+          echo "FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json">>.env
+          echo "APPLICATION_ID=89d998a5-aaef-45d0-9765-adf1f3e00c65">>.env
+          echo "DEF_TENANTID=d7d09513-a3f5-401c-9685-34ab6c552453">>.env
+          echo "APP_USEREMAIL=user@local.nu">>.env
+          echo "APP_USERPASSWORD=userpassword">>.env
       - name: Show contents of .env
         shell: bash
         run: |          
           cat .env
-
-      - name: List directory
-        shell: bash
-        run: |
-          echo $PWD
-          ls -latr
-                   
+           
       - name: Run docker
         shell: bash
         run: | 
@@ -74,19 +79,13 @@ jobs:
         run: | 
           docker-compose config
           sleep 3
-      - name: List directory  /usr/local/fusionauth/kickstart inside FA container
-        shell: bash
-        run: | 
-          docker exec -t fusionauth ls -latr /usr/local/fusionauth/kickstart
-          sleep 5
-      - name: Get applications from api
+      - name: GetRetrieve Clientid & ClientSecret for application from api
         shell: bash
         run: |
-          curl -s -o "application.json" -H 'Authorization: 4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd' http://localhost:9011/api/application/89d998a5-aaef-45d0-9765-adf1f3e00c65
-          #APPLICATIONJSON="$(<application.json)"
-          CLIENT_ID="$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)"
+          curl -s -o "application.json" -H 'Authorization: $FUSIONAUTH_API_KEY' http://localhost:9011/api/application/$APPLICATION_ID
+          export CLIENT_ID="$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)"
           echo "ClientId $CLIENT_ID"
-          CLIENT_SECRET="$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)" 
+          export CLIENT_SECRET="$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)" 
           echo "ClientSecret $CLIENT_SECRET"    
                
       - name: Get openid-configuration
