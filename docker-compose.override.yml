@@ -13,5 +13,5 @@ services:
       - APP_USERPASSWORD=${APP_USERPASSWORD}
 
     volumes:
-      - ./tests/kickstart:/usr/local/fusionauth/kickstart
+      - ./kickstart:/usr/local/fusionauth/kickstart
       - fa_config:/usr/local/fusionauth/config
