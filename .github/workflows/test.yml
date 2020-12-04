@@ -82,37 +82,25 @@ jobs:
       - name: Retrieve Clientid & ClientSecret for application from api
         shell: bash
         run: |
-          echo "FUSIONAUTH_API_KEY:$FUSIONAUTH_API_KEY"
-          echo "APPLICATION_ID:$APPLICATION_ID"
-          
-          curl -i -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID
           
           APPLICATIONJSON="$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )"
           
-          echo "APPLICATIONJSON:$APPLICATIONJSON"
           export APPLICATIONJSON="$APPLICATIONJSON"
           echo "APPLICATIONJSON=$APPLICATIONJSON">> $GITHUB_ENV
           echo $APPLICATIONJSON
           #
           export CLIENT_ID="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientId)"
           echo "CLIENT_ID=$CLIENT_ID">> $GITHUB_ENV
-          echo "ClientId=$CLIENT_ID"
-        
+          
           #
           export CLIENT_SECRET="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientSecret)"
           echo "CLIENT_SECRET=$CLIENT_SECRET">> $GITHUB_ENV
-          echo "ClientSecret=$CLIENT_SECRET"  
                
-      - name: Get openid-configuration
-        shell: bash
-        run: |
-          curl $DISCOVERY_URL
-
-      - name: run deviceauth.sh setDiscovery
+      - name: run ./deviceauth.sh setDiscovery
         shell: bash
         run: |
           bash ./deviceauth.sh setDiscovery $DISCOVERY_URL
-      - name: run deviceauth.sh setClientid
+      - name: run ./deviceauth.sh setClientid
         shell: bash
         run: |
           echo "ClientId=$CLIENT_ID"
@@ -121,10 +109,9 @@ jobs:
         shell: bash
         run: | 
           docker-compose logs          
-      - name: run deviceauth.sh authorize
+      - name: run ./deviceauth.sh authorize
         shell: bash
         run: |
-          echo "Using:  curl -m 3 -s -o OUTPUTFILE -X POST -F "client_id=$CLIENTID" -F "scope=offline_access" -w "%{http_code}" URL"
           bash ./deviceauth.sh authorize
           ls -latr $HOME/.oauth2
       - name: Show authrequest, Poll for Authorization status
@@ -139,7 +126,7 @@ jobs:
         run: |
           echo "Polling once.."
           bash ./deviceauth.sh poll once
-      - name: GET /oauth2/device/validate
+      - name: GET /oauth2/device/validate (Manually validate device)
         shell: bash
         run: |
           JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
@@ -147,21 +134,17 @@ jobs:
           USERCODE=$(echo $JSON|jq -r .user_code)
           echo "GET http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE"
           curl -i "http://localhost:9011/oauth2/device/validate?client_id=$CLIENT_ID&user_code=$USERCODE" 
-      - name: Manually Authorize device
+      - name: POST /oauth2/token (Manually authorize device)
         shell: bash
         run: |    
           JSON="$(<$HOME/.oauth2/.tokenrequest.json)"
-          #echo $JSON
-          echo "Manually Authorizing the device."      
-          echo "POST http://localhost:9011/oauth2/token  (grant_type=password + user_code=$(echo $JSON|jq -r .user_code))" 
-          --data-urlencode 'scope=offline_access' \
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
                 --header 'Content-Type: application/x-www-form-urlencoded' \
                 --data-urlencode 'grant_type=password' \
-                --data-urlencode 'client_id=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientId)' \
-                --data-urlencode 'client_secret=$(echo $(<application.json)|jq -r .application.oauthConfiguration.clientSecret)' \
-                --data-urlencode 'username=user@local.nu' \
-                --data-urlencode 'password=userpassword' \
+                --data-urlencode 'client_id=$CLIENT_ID' \
+                --data-urlencode 'client_secret=$CLIENT_SECRET' \
+                --data-urlencode 'username=$APP_USEREMAIL' \
+                --data-urlencode 'password=$APP_USERPASSWORD' \
                 --data-urlencode 'user_code=$(echo $JSON|jq -r .user_code)'   
       - name: Poll for authentication
         shell: bash
