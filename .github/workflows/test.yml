@@ -87,14 +87,16 @@ jobs:
           echo "FUSIONAUTH_API_KEY:$FUSIONAUTH_API_KEY"
           APPLICATIONJSON=$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )
           export APPLICATIONJSON="$APPLICATIONJSON"
-          echo "APPLICATIONJSON=$APPLICATIONJSON" >> $GITHUB_ENV
+          echo "APPLICATIONJSON=$APPLICATIONJSON">>.env >> $GITHUB_ENV
+          echo $APPLICATIONJSON
           #
           export CLIENT_ID="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientId)"
-          echo "CLIENT_ID=$CLIENT_ID" >> $GITHUB_ENV
+          echo "CLIENT_ID=$CLIENT_ID">>.env >> $GITHUB_ENV
           echo "ClientId=$CLIENT_ID"
+        
           #
           export CLIENT_SECRET="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientSecret)"
-          echo "CLIENT_SECRET=$CLIENT_SECRET" >> $GITHUB_ENV
+          echo "CLIENT_SECRET=$CLIENT_SECRET">>.env >> $GITHUB_ENV
           echo "ClientSecret=$CLIENT_SECRET"  
                
       - name: Get openid-configuration
@@ -109,6 +111,7 @@ jobs:
       - name: run deviceauth.sh setClientid
         shell: bash
         run: |
+          echo "ClientId=$CLIENT_ID"
           bash ./deviceauth.sh setClientid $CLIENT_ID
       - name: Show docker-compose logs
         shell: bash
