@@ -45,7 +45,7 @@ jobs:
           curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
           curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env
           
-      - name: Add Variables  to .env
+      - name: Add Variables to .env & show it
         shell: bash
         run: |             
           ## Set the needed Environment variables
@@ -66,11 +66,9 @@ jobs:
           echo "DEF_TENANTID=$DEF_TENANTID">>.env >> $GITHUB_ENV
           echo "APP_USEREMAIL=$APP_USEREMAIL">>.env >> $GITHUB_ENV
           echo "APP_USERPASSWORD=$APP_USERPASSWORD">>.env >> $GITHUB_ENV
-      - name: Show contents of .env
-        shell: bash
-        run: |          
+          ## show to screen
           cat .env
-           
+
       - name: Run docker
         shell: bash
         run: | 
@@ -85,7 +83,10 @@ jobs:
         shell: bash
         run: |
           echo "FUSIONAUTH_API_KEY:$FUSIONAUTH_API_KEY"
+          echo "APPLICATION_ID:$APPLICATION_ID"
+          
           APPLICATIONJSON=$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )
+          echo "APPLICATIONJSON:$APPLICATIONJSON"
           export APPLICATIONJSON="$APPLICATIONJSON"
           echo "APPLICATIONJSON=$APPLICATIONJSON">> $GITHUB_ENV
           echo $APPLICATIONJSON
