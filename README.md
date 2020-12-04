@@ -31,3 +31,21 @@ If everything goes well, all tests will succeed. (https://github.com/jerryhopper
 Now you can test your own custom code against a pre-configured fusionauth instance, without the need for a development enviroment.
 
 If you are interested how you can do this in conjunction with https://travis-ci.com/, checkout this repo : https://raw.githubusercontent.com/jerryhopper/fusionauth-bash-deviceauth
+
+
+
+## Troubleshooting
+
+Troubleshooting your kickstart.json? just checkout the fusionauth logs.
+
+A successfull kickstart initialization looks like this: 
+```
+fusionauth    | ---------------------------------------------------------------------------------------------------------
+fusionauth    | -------------------------------------------- Kickstarting ? --------------------------------------------
+fusionauth    | ---------------------------------------------------------------------------------------------------------
+fusionauth    | 
+fusionauth    | 2020-12-04 4:25:36.050 PM INFO  io.fusionauth.api.service.system.kickstart.KickstartRunner - Summary:
+fusionauth    |   - Created API key ending in [...b1bd]
+fusionauth    |   - Completed [POST] request to [/api/application/89d998a5-aaef-45d0-9765-adf1f3e00c65]
+fusionauth    |   - Completed [POST] request to [/api/user/registration/00000000-0000-0000-0000-000000000001]
+```
