@@ -86,7 +86,7 @@ jobs:
         run: |
           echo "FUSIONAUTH_API_KEY:$FUSIONAUTH_API_KEY"
           APPLICATIONJSON=$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )
-          eport APPLICATIONJSON="$APPLICATIONJSON"
+          export APPLICATIONJSON="$APPLICATIONJSON"
           echo "APPLICATIONJSON::$APPLICATIONJSON" >> $GITHUB_ENV
           #
           export CLIENT_ID="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientId)"
