@@ -13,7 +13,7 @@ GitHub Actions is an API for cause and effect on GitHub: orchestrate any workflo
 ### About this repo
 In this repo, i demonstrate the how to use Fusionauth's kickstart.json to quickly setup a fusionauth instance with a preconfigured application with specific grants and a user so we can test some code against fusionauth.
 
-To keep things simple, the code that is being used is a simple device-authorization script in bash (source: https://raw.githubusercontent.com/jerryhopper/fusionauth-bash-deviceauth)
+To keep things simple, the code that is being used is a simple device-authorization script in bash (source: https://github.com/jerryhopper/fusionauth-bash-deviceauth)
 
 More info about device authorization : https://fusionauth.io/learn/expert-advice/oauth/oauth-device-authorization/
 
