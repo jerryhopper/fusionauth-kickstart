@@ -82,20 +82,22 @@ jobs:
       - name: Retrieve Clientid & ClientSecret for application from api
         shell: bash
         run: |
-          
           APPLICATIONJSON="$(curl -s -H "Authorization: $FUSIONAUTH_API_KEY" http://localhost:9011/api/application/$APPLICATION_ID )"
           
           export APPLICATIONJSON="$APPLICATIONJSON"
+          # make variable available thru github-actions steps
           echo "APPLICATIONJSON=$APPLICATIONJSON">> $GITHUB_ENV
-          echo $APPLICATIONJSON
-          #
+          
           export CLIENT_ID="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientId)"
+          # make variable available thru github-actions steps
           echo "CLIENT_ID=$CLIENT_ID">> $GITHUB_ENV
           
-          #
           export CLIENT_SECRET="$(echo $APPLICATIONJSON|jq -r .application.oauthConfiguration.clientSecret)"
+          # make variable available thru github-actions steps
           echo "CLIENT_SECRET=$CLIENT_SECRET">> $GITHUB_ENV
-               
+      - name: -Start-tests-------------------------------------
+        shell: bash
+        run: echo ""               
       - name: run ./deviceauth.sh setDiscovery
         shell: bash
         run: |
@@ -103,7 +105,6 @@ jobs:
       - name: run ./deviceauth.sh setClientid
         shell: bash
         run: |
-          echo "ClientId=$CLIENT_ID"
           bash ./deviceauth.sh setClientid $CLIENT_ID
       - name: Show docker-compose logs
         shell: bash
@@ -113,7 +114,7 @@ jobs:
         shell: bash
         run: |
           bash ./deviceauth.sh authorize
-          ls -latr $HOME/.oauth2
+          #ls -latr $HOME/.oauth2
       - name: Show authrequest, Poll for Authorization status
         shell: bash
         run: |
@@ -141,11 +142,11 @@ jobs:
           curl -s --location --request POST 'http://localhost:9011/oauth2/token' \
                 --header 'Content-Type: application/x-www-form-urlencoded' \
                 --data-urlencode 'grant_type=password' \
-                --data-urlencode 'client_id=$CLIENT_ID' \
-                --data-urlencode 'client_secret=$CLIENT_SECRET' \
-                --data-urlencode 'username=$APP_USEREMAIL' \
-                --data-urlencode 'password=$APP_USERPASSWORD' \
-                --data-urlencode 'user_code=$(echo $JSON|jq -r .user_code)'   
+                --data-urlencode "client_id=$CLIENT_ID" \
+                --data-urlencode "client_secret=$CLIENT_SECRET" \
+                --data-urlencode "username=$APP_USEREMAIL" \
+                --data-urlencode "password=$APP_USERPASSWORD" \
+                --data-urlencode "user_code=$(echo $JSON|jq -r .user_code)"   
       - name: Poll for authentication
         shell: bash
         run: |    
