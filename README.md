@@ -30,7 +30,7 @@ If everything goes well, all tests will succeed. (https://github.com/jerryhopper
 
 Now you can test your own custom code against a pre-configured fusionauth instance, without the need for a development enviroment.
 
-If you are interested how you can do this in conjunction with https://travis-ci.com/, checkout this repo : https://raw.githubusercontent.com/jerryhopper/fusionauth-bash-deviceauth
+If you are interested how you can do this in conjunction with https://travis-ci.com/, checkout this repo : https://github.com/jerryhopper/fusionauth-bash-deviceauth https://travis-ci.com/github/jerryhopper/fusionauth-bash-deviceauth
 
 
 
