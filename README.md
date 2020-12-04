@@ -19,7 +19,7 @@ More info about device authorization : https://fusionauth.io/learn/expert-advice
 
 ### How to use this repo?
 
-This repository is here to help you create tests for your own code, and because you need to push a change to trigger the github-actions, you need to clone this repository and push a change. This will trigger a action as defined in /.github/workflows/test.yml 
+This repository is here to help you create tests for your own code, and because you need to push a change to trigger the github-actions, you need to clone this repository and push a change. This will trigger a action as defined in https://github.com/jerryhopper/fusionauth-kickstart/blob/master/.github/workflows/test.yml
 
 Now you can see the progress of the action in the 'actions' tab of your git-repository.
 
